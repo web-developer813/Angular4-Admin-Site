@@ -1,0 +1,26 @@
+<md-card>
+  <md-card-title style="margin-bottom: 0; font-size: 1.3rem">{{action | uppercase}} SCHEDULE NOTIFICATION</md-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+      <md-card-content>
+        <div fxLayout="column">
+          <div class="mb-1" fxFlex="100">
+            <md-input-container style="width: 100%">
+              <textarea mdInput mdTextareaAutosize mdAutosizeMinRows="6"
+                     [formControl]="form.controls['schedule_message']"
+                     [(ngModel)]="schedule_message"
+                     type="text" name="schedule_message" placeholder="Notification" required> </textarea>
+            </md-input-container>
+            <small *ngIf="form.controls['schedule_message'].hasError('required') && form.controls['schedule_message'].touched" class="mat-text-warn">You must include notification message.</small>
+          </div>
+        </div>
+        <datepicker name="schedule_date" [(ngModel)]="schedule_date" [formControl]="form.controls['schedule_date']" [showWeeks]="true" style="display: inline-flex"></datepicker>
+        <timepicker name="schedule_time" [(ngModel)]="schedule_time" [formControl]="form.controls['schedule_time']" [minuteStep]="1"></timepicker>
+
+      </md-card-content>
+    <hr>
+    <md-card-actions>
+      <button md-raised-button color="primary" type="submit" class="shadow-none">Save</button>
+      <button md-raised-button color="primary" (click)="router.navigate(['schedule_notification_list'])">Cancel</button>
+    </md-card-actions>
+  </form>
+</md-card>

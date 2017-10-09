@@ -1,0 +1,63 @@
+<div fxLayout="row" fxLayoutWrap="wrap" style="padding: 10px 0 0 5px;" fxLayoutAlign="start center">
+    <md-input-container fxFlex.gt-sm="40" fxFlex="100">
+        <input mdInput placeholder="Type to filter..." required (keyup)='updateFilter($event)'>
+    </md-input-container>
+    <div fxFlex></div>
+    <button md-mini-fab color="warn" class="mr-1" (click)="onAddSchedule()"><md-icon>add</md-icon></button>
+</div>
+
+<ngx-datatable class='material'
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [limit]="10" [rows]='rows'>
+
+    <!--<ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="true" [draggable]="false" [resizeable]="true" [headerCheckboxable]="true"
+        [checkboxable]="true">
+    </ngx-datatable-column>-->
+
+  <ngx-datatable-column name="Home Team Name" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row?.home_team}}
+      </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Score" [sortable]="true">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row?.home_team_score}}
+      </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Away Team Name" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.away_team}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Score" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.away_team_score}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Schedule Time" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.schedule_time ? changeTimezone(row.schedule_time) : '' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="schedule_id">
+    <ng-template ngx-datatable-header-template>Update Score</ng-template>
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <button md-icon-button (click)="OnUpdateSchedule(row?.schedule_id)"><md-icon style="color:orange">create</md-icon></button>
+    </ng-template>
+
+  </ngx-datatable-column>
+
+  <!--<ngx-datatable-column name="Timezone" [sortable]="true">-->
+    <!--<ng-template let-row="row" ngx-datatable-cell-template>-->
+      <!--{{row?.timezone ? getTimezoneText(row.timezone) : ''}}-->
+    <!--</ng-template>-->
+  <!--</ngx-datatable-column>-->
+
+</ngx-datatable>

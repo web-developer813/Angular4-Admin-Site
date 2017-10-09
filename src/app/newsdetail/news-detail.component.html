@@ -1,0 +1,154 @@
+<md-card>
+    <md-card-title style="margin-bottom: 0; font-size: 1.3rem">{{action | uppercase}} NEWS</md-card-title>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+        <md-card-content>
+            <div class="mb-1">
+                <md-input-container style="width: 100%">
+                    <input mdInput name="title"
+                        placeholder="News Title" 
+                        [formControl]="form.controls['title']"
+                        [ngModel]="news.title" required>
+                </md-input-container>
+                <small *ngIf="form.controls['title'].hasError('required') && form.controls['title'].touched" class="mat-text-warn">You must include a title.</small>
+                <small *ngIf="form.controls['title'].hasError('minlength') && form.controls['title'].touched" class="mat-text-warn">Title must be at least 5 characters long.</small>
+                <small *ngIf="form.controls['title'].hasError('maxlength') && form.controls['title'].touched" class="mat-text-warn">Your first name cannot exceed 100 characters.</small>
+            </div>
+
+            <div class="mb-1">
+                <label for="">News Content:</label>
+                <quill-editor [(ngModel)]="editorContent" [formControl]="form.controls['detail']"
+                                (onEditorCreated)="onEditorCreated($event)"></quill-editor>
+            </div>
+
+            <div class="mb-1">
+                <md-card>
+                    <md-card-title>Photo/Video upload</md-card-title>
+                    <md-card-subtitle>Please select photo or video files to upload</md-card-subtitle>
+
+                    <md-card-content>
+                        <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="start">
+                            <div fxFlex.gt-sm="20" fxFlex.gt-xs="50" fxFlex="100"  class="pr-1">
+                                <h6 class="mt-0">Select files</h6>
+                                <div ng2FileDrop
+                                [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                                (fileOver)="fileOverBase($event)"
+                                [uploader]="uploader" class="my-drop-zone mb-1">Base drop zone</div>
+
+                                <p>Multiple</p>
+                                <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+
+                                <div class="clearfix mb-1"></div>
+                            </div>
+                            <div fxFlex.gt-sm="80" fxFlex.gt-xs="50" fxFlex="100">
+                                <h6 class="mt-0"  fxLayout="row">
+                                <span fxFlex>Upload queue</span>
+                                <span>Queue length: {{ uploader?.queue?.length }}</span>
+                                </h6>
+
+                                <ngx-datatable
+                                    class="material ml-0 mr-0"
+                                    [rows]="uploader.queue"
+                                    [columnMode]="'force'"
+                                    [headerHeight]="50"
+                                    [footerHeight]="0"
+                                    [rowHeight]="'auto'">
+                                <ngx-datatable-column name="Name" [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{ row?.file?.name }}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Size" *ngIf="uploader.options.isHTML5" [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{ row?.file?.size/1024/1024 | number:'.2' }} MB
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="Progress" *ngIf="uploader.options.isHTML5" [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <md-progress-bar mode="determinate" value="{{row.progress}}"></md-progress-bar>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="status" [flexGrow]="1">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span *ngIf="row.isSuccess"><md-icon>check</md-icon></span>
+                                    <span *ngIf="row.isCancel"><md-icon>cancel</md-icon></span>
+                                    <span *ngIf="row.isError"><md-icon>error</md-icon></span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column name="action" [flexGrow]="3">
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <button md-raised-button md-button-sm color="warn" type="button"
+                                        (click)="row.cancel()" [disabled]="!row.isUploading">Cancel</button>
+                                    <button md-raised-button md-button-sm color="accent" type="button"
+                                        (click)="row.remove()">Remove
+                                    </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                </ngx-datatable>
+
+                                <div class="mb-1">
+                                <p>Queue progress:</p>
+                                <md-progress-bar mode="determinate" value="{{uploader.progress}}"></md-progress-bar>
+                                </div>
+                                <button md-raised-button md-button-sm color="warn" type="button"
+                                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">Cancel all</button>
+                                <button md-raised-button md-button-sm color="accent" type="button"
+                                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">Remove all</button>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+
+            <pre class="alert alert-info">{{formatString()}}</pre>
+            <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="start">
+                <div fxFlex.gt-sm="50" fxFlex="100" class="pr-1">
+                    <md-card>
+                        <md-card-header>
+                            <md-card-title>Publish Start Date Time</md-card-title>
+                        </md-card-header>
+                        <md-card-content>
+                            <datepicker [(ngModel)]="published_date" [formControl]="form.controls['published_date']" [showWeeks]="true" style="display: inline-block"></datepicker>
+                            <timepicker [(ngModel)]="published_time" [formControl]="form.controls['published_time']" [minuteStep]="1"></timepicker>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div fxFlex.gt-sm="50" fxFlex="100" class="pr-1">
+                    <md-card>
+                        <md-card-header>
+                            <md-card-title>Publish End Date Time</md-card-title>
+                        </md-card-header>
+                        <md-card-content>
+                            <datepicker [(ngModel)]="publish_end_date" [formControl]="form.controls['publish_end_date']" [showWeeks]="true" style="display: inline-block" ></datepicker>
+                            <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="start">
+                                <timepicker [(ngModel)]="publish_end_time" [formControl]="form.controls['publish_end_time']" [minuteStep]="1" ></timepicker>
+                                <md-checkbox [formControl]="form.controls['no_end_date']"
+                                            [(ngModel)]="no_end_date"
+                                            [indeterminate]="false"
+                                            (change)="onNoEndDateClicked()"
+                                            name="no_end_date" color="accent" style="margin: 45px 0 0 50px">
+                                    No end date
+                                </md-checkbox>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+
+            <div class="mt-1">
+                <label for="active">Active:</label>
+                <md-slide-toggle 
+                    id="active" 
+                    name="active"
+                    [formControl]="form.controls['active']"
+                    [checked]="news.active === 'Yes'"
+                    color="primary">
+                </md-slide-toggle>
+            </div>
+
+        </md-card-content>
+        <hr>
+        <md-card-actions>
+            <button md-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+        </md-card-actions>
+    </form>
+</md-card>

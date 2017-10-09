@@ -1,0 +1,45 @@
+<div fxLayout="row" fxLayoutWrap="wrap" style="padding: 10px 0 0 5px;" fxLayoutAlign="start center">
+  <md-input-container fxFlex.gt-sm="40" fxFlex="100">
+    <input mdInput placeholder="Type to filter..." required (keyup)='updateFilter($event)'>
+  </md-input-container>
+  <div fxFlex></div>
+</div>
+
+<ngx-datatable class='material'
+               [columnMode]="'force'"
+               [headerHeight]="50"
+               [footerHeight]="50"
+               [rowHeight]="'auto'"
+               [limit]="10" [rows]='rows.reverse()'>
+
+  <ngx-datatable-column name="ID" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.itemId}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Full Name" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.fullname}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Message" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.message}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Date Time" [sortable]="true">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{row?.timestamp ? changeTimezone(row.timestamp) : '' }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="notification_id">
+    <ng-template ngx-datatable-header-template>Action</ng-template>
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <button md-icon-button (click)="onDeleteStadium(row?.itemId)"><md-icon style="color:brown">delete</md-icon></button>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

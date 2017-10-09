@@ -1,0 +1,11 @@
+.thumbnail {
+    position: relative;
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    width: 25%;
+    img {
+        display: block;
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,52 @@
+<div fxLayout="row" fxLayoutWrap="wrap" style="padding: 10px 0 0 5px;" fxLayoutAlign="start center">
+    <md-input-container fxFlex.gt-sm="40" fxFlex="100">
+        <input mdInput placeholder="Type to filter..." required (keyup)='updateFilter($event)'>
+    </md-input-container>
+    <div fxFlex></div>
+    <button md-raised-button color="warn" class="mr-1" style="width: 90px;" (click)="onAddNews()">Add</button>
+</div>
+
+<ngx-datatable class='material' 
+    [columnMode]="'force'" 
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    [rowHeight]="'auto'" 
+    [limit]="10" [rows]='rows'>
+
+    <!--<ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+        [checkboxable]="true">
+    </ngx-datatable-column>-->
+
+    <ngx-datatable-column name="Title" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="Detail">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <button md-raised-button (click)="onViewDetail(value)">View Detail</button>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Publish Start" [sortable]="true">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{row?.published}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Publish End" [sortable]="true">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row?.noEndDate === 'Yes' ? 'No end' : row?.publishEnd}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Created" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="Active" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="newsId">
+        <ng-template ngx-datatable-header-template>Edit</ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <button md-icon-button (click)="onEditNews(value)"><md-icon style="color:orange">create</md-icon></button>
+            <button md-icon-button (click)="onDeleteNews(value)"><md-icon style="color:brown">delete</md-icon></button>
+        </ng-template>
+    </ngx-datatable-column>
+
+</ngx-datatable>

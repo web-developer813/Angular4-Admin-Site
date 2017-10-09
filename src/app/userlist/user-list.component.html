@@ -1,0 +1,45 @@
+<div fxLayout="row" fxLayoutWrap="wrap" style="padding: 10px 0 0 5px;" fxLayoutAlign="start center">
+    <md-input-container fxFlex.gt-sm="40" fxFlex="100">
+        <input mdInput placeholder="Type to filter the title or detail column..." required (keyup)='updateFilter($event)'>
+    </md-input-container>
+    <div fxFlex></div>
+    <button md-mini-fab color="warn" class="mr-1" (click)="onAddUser()"><md-icon>add</md-icon></button>
+</div>
+
+<ngx-datatable class='material' 
+    [columnMode]="'force'" 
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    [rowHeight]="'auto'" 
+    [limit]="10" [rows]='rows'>
+
+    <!--<ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="true" [draggable]="false" [resizeable]="true" [headerCheckboxable]="true"
+        [checkboxable]="true">
+    </ngx-datatable-column>-->
+
+    <ngx-datatable-column name="FullName" [sortable]="true">
+        <ng-template ngx-datatable-header-template>Full Name</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="EmailAddress">
+        <ng-template ngx-datatable-header-template>Email Address</ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Birthday" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="Phone" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="PhoneVerified" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="Active" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="Admin" [sortable]="true"></ngx-datatable-column>
+
+    <ngx-datatable-column name="UserId">
+        <ng-template ngx-datatable-header-template>Edit</ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <button md-icon-button (click)="onEditUser(value)"><md-icon style="color:orange">create</md-icon></button>
+            <button md-icon-button (click)="onDeleteUser(value)" [disabled]="true" ><md-icon style="color:brown">delete</md-icon></button>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

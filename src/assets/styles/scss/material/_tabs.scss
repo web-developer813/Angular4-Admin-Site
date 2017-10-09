@@ -1,0 +1,11 @@
+.mat-tab-label {
+	width: 100%;
+	color: rgba(mat-color($foreground, base), 0.87);
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+.app-dark .mat-tab-label {
+	color: mat-color($dark-foreground, base);
+}

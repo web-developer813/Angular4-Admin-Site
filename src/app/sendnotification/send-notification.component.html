@@ -1,0 +1,22 @@
+<md-card>
+  <md-card-title style="margin-bottom: 0; font-size: 1.3rem">Send Notification</md-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+    <md-card-content>
+      <div fxLayout="column">
+        <div class="mb-1" fxFlex="100">
+          <md-input-container style="width: 100%">
+              <textarea mdInput mdTextareaAutosize mdAutosizeMinRows="6"
+                        [formControl]="form.controls['send_message']"
+                        [(ngModel)]="send_message"
+                        type="text" name="send_message" placeholder="Notification" maxlength="160" required> </textarea>
+          </md-input-container>
+          <small *ngIf="form.controls['send_message'].hasError('required') && form.controls['send_message'].touched" class="mat-text-warn">You must include notification message.</small>
+        </div>
+      </div>
+    </md-card-content>
+    <hr>
+    <md-card-actions>
+      <button md-raised-button color="primary" type="submit" class="shadow-none">Send</button>
+    </md-card-actions>
+  </form>
+</md-card>

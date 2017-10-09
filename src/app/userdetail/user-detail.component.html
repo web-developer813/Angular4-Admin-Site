@@ -1,0 +1,85 @@
+<md-toolbar color="primary">
+    <md-toolbar-row>
+    </md-toolbar-row>
+</md-toolbar>
+
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="center start">
+    <div fxFlex.gt-sm="40" fxFlex="100">
+        <md-card class="mat-card-top">
+            <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+                <md-tab-group>
+                    <md-tab>
+                        <ng-template md-tab-label>{{action | uppercase}} USER</ng-template>
+
+                        <md-card-content>
+
+                            <div fxLayout="column">
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['full_name']"
+                                            [ngModel]="user.full_name"
+                                            type="text" name="full_name" placeholder="Full name" required>
+                                    </md-input-container>
+                                    <small *ngIf="form.controls['full_name'].hasError('required') && form.controls['full_name'].touched" class="mat-text-warn">You must include a first name.</small>
+                                    <small *ngIf="form.controls['full_name'].hasError('minlength') && form.controls['full_name'].touched" class="mat-text-warn">Your full name must be at least 5 characters long.</small>
+                                    <small *ngIf="form.controls['full_name'].hasError('maxlength') && form.controls['full_name'].touched" class="mat-text-warn">Your full name cannot exceed 100 characters.</small>
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['email_address']"
+                                            [ngModel]="user.email_address"
+                                            type="email" name="email_address" placeholder="Email address" required>
+                                    </md-input-container>
+                                    <small *ngIf="form.controls['email_address'].hasError('required') && form.controls['email_address'].touched" class="mat-text-warn">You must include an email address</small>
+                                    <small *ngIf="!form.controls['email_address'].hasError('required') && form.controls['email_address'].errors?.email && form.controls['email_address'].touched" class="mat-text-warn">You must include a valid email address.</small>
+                                </div>
+
+                                <!--<div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['birthday']"
+                                            [ngModel]="user.birthday"
+                                            type="date" name="birthday" placeholder="Birthday">
+                                    </md-input-container>
+                                    <small *ngIf="form.controls['birthday'].hasError('required') && form.controls['birthday'].touched" class="mat-text-warn">You must include a date.</small>
+                                    <small *ngIf="form.controls['birthday'].errors?.date && form.controls['birthday'].touched" class="mat-text-warn">You must include a valid date.</small>
+                                </div>-->
+                                <label for="birthday">Birthday</label>
+                                <datepicker id="birthday" name="birthday" [(ngModel)]="birthday" [formControl]="form.controls['birthday']" [showWeeks]="true" style="display: inline-flex"></datepicker>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <label for="active">Active: </label>
+                                    <md-slide-toggle 
+                                        id="active"
+                                        name="active"
+                                        [formControl]="form.controls['active']"
+                                        [checked]="user.active === 'Yes'"
+                                        color="primary">
+                                    </md-slide-toggle>
+                                    <label for="admin">Administrator: </label>
+                                    <md-slide-toggle 
+                                        id="admin"
+                                        name="admin"
+                                        [formControl]="form.controls['admin']"
+                                        [checked]="user.admin === 'Yes'"
+                                        color="primary">
+                                    </md-slide-toggle>
+                                </div>
+
+                                <small *ngIf="message" fxFlex="100" class="mat-text-warn">{{message}}</small>
+                            </div>
+                        </md-card-content>
+                    </md-tab>
+                </md-tab-group>
+                <hr>
+                <md-card-actions>
+                    <button md-raised-button type="submit" class="shadow-none">Save</button>
+                    <button md-raised-button color="primary" (click)="router.navigate(['user_list'])">Cancel</button>
+                </md-card-actions>
+            </form>
+        </md-card>
+    </div>
+</div>

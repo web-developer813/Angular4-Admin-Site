@@ -1,0 +1,136 @@
+<md-toolbar color="primary">
+    <md-toolbar-row>
+    </md-toolbar-row>
+</md-toolbar>
+
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="center start">
+    <div fxFlex.gt-sm="60" fxFlex="100">
+        <md-card class="mat-card-top">
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+                <md-tab-group>
+                    <md-tab>
+                        <ng-template md-tab-label>{{action | uppercase}} PLAYER</ng-template>
+
+                        <md-card-content>
+
+                            <div fxLayout="column">
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_number']"
+                                            [ngModel]="player.player_number"
+                                            type="number" name="player_number" min="1" placeholder="Player Number" required>
+                                    </md-input-container>
+                                    <small *ngIf="form.controls['player_number'].hasError('required') && form.controls['player_number'].touched" class="mat-text-warn">You must enter a number.</small>
+                                    <small *ngIf="!form.controls['player_number'].hasError('required') && form.controls['player_number'].hasError('min') && form.controls['player_number'].touched" class="mat-text-warn">Player number must be at least 1.</small>
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_name']"
+                                            [ngModel]="player.player_name"
+                                            type="text" name="player_name" placeholder="Player Name" required>
+                                    </md-input-container>
+                                    <small *ngIf="form.controls['player_name'].hasError('required') && form.controls['player_name'].touched" class="mat-text-warn">You must include a player name.</small>
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_position']"
+                                            [ngModel]="player.player_position"
+                                            type="text" name="player_position" placeholder="Player Position">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_position'].hasError('required') && form.controls['player_position'].touched" class="mat-text-warn">You must include a player position.</small>-->
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container>
+                                        <input mdInput
+                                            [hidden]="height_unit === 'cm'"
+                                            [formControl]="form.controls['feet']"
+                                            [ngModel]="feet"
+                                            type="number" name="feet" placeholder="Height" min="1" max="9" style="text-align:right">
+                                        <span mdSuffix [hidden]="height_unit === 'cm'">ft</span>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <input mdInput
+                                            [hidden]="height_unit === 'cm'"
+                                            [formControl]="form.controls['inches']"
+                                            [ngModel]="inches"
+                                            type="number" name="inches" placeholder="" min="0" max="99" style="text-align:right">
+                                        <span mdSuffix [hidden]="height_unit === 'cm'">in</span>
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <input mdInput
+                                            [hidden]="height_unit === 'ft'"
+                                            [formControl]="form.controls['centimeters']"
+                                            [ngModel]="centimeters"
+                                            type="number" name="centimeters" placeholder="Height" style="text-align:right">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_height'].hasError('required') && form.controls['player_height'].touched" class="mat-text-warn">You must include a player height.</small>-->
+                                    <md-select placeholder="Unit" name="height_unit"
+                                            [(ngModel)]="height_unit"
+                                            [formControl]="form.controls['height_unit']">
+                                        <md-option *ngFor="let unit of ['ft', 'cm']" [value]="unit" style="text-align:right">
+                                            {{ unit }}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_weight']"
+                                            [ngModel]="player.player_weight"
+                                            type="number" name="player_weight" placeholder="Weight">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_weight'].hasError('required') && form.controls['player_weight'].touched" class="mat-text-warn">You must include a weight.</small>-->
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_age']"
+                                            [ngModel]="player.player_age"
+                                            type="number" name="player_age" placeholder="Age">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_age'].hasError('required') && form.controls['player_age'].touched" class="mat-text-warn">You must include an age.</small>-->
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_exp']"
+                                            [ngModel]="player.player_exp"
+                                            type="text" name="player_exp" placeholder="Experience">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_exp'].hasError('required') && form.controls['player_exp'].touched" class="mat-text-warn">You must include a player experience.</small>-->
+                                </div>
+
+                                <div class="mb-1" fxFlex="100">
+                                    <md-input-container style="width: 100%">
+                                        <input mdInput
+                                            [formControl]="form.controls['player_college']"
+                                            [ngModel]="player.player_college"
+                                            type="text" name="player_college" placeholder="College">
+                                    </md-input-container>
+                                    <!--<small *ngIf="form.controls['player_college'].hasError('required') && form.controls['player_college'].touched" class="mat-text-warn">You must include a college.</small>-->
+                                </div>
+
+                                <small *ngIf="message" fxFlex="100" class="mat-text-warn">{{message}}</small>
+                            </div>
+                        </md-card-content>
+                    </md-tab>
+                </md-tab-group>
+                <hr>
+                <md-card-actions>
+                    <button md-raised-button type="submit" class="shadow-none">Save</button>
+                    <button md-raised-button color="primary" (click)="router.navigate(['player_list'])">Cancel</button>
+                </md-card-actions>
+            </form>
+        </md-card>
+    </div>
+</div>

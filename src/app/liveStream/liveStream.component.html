@@ -1,0 +1,20 @@
+<md-card>
+  <md-card-title style="margin-bottom: 0; font-size: 1.3rem">Live Stream</md-card-title>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form.value, form.valid)">
+    <md-card-content>
+      <div class="mb-1" fxFlex="100">
+        <label for="status">Turn ON / OFF: </label>
+        <md-slide-toggle
+          id="status"
+          name="status"
+          [formControl]="form.controls['status']"
+          color="primary">
+        </md-slide-toggle>
+      </div>
+    </md-card-content>
+    <hr>
+    <md-card-actions>
+      <button md-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+    </md-card-actions>
+  </form>
+</md-card>
